@@ -1,0 +1,112 @@
+apply plugin: 'application'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+   implementation group: 'org.json', name: 'json', version: '20200518'
+}
+
+//define main class
+mainClassName = 'Concentration'
+
+task runServer(type: JavaExec) {
+  group 'server'
+  description 'Creates Server socket waits for messages'
+
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.Server'
+  standardInput = System.in
+  
+  // run with arguments e.g.: gradle runServer -Pport=9099 -q --console=plain
+  if (project.hasProperty('port')) {
+    args(project.getProperty('port'));
+  }
+}
+
+task runThreadedServer(type: JavaExec) {
+  group 'ThreadedServer'
+  description 'Creates Server socket waits for messages'
+
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.ThreadedServer'
+  standardInput = System.in
+  
+  // run with arguments e.g.: gradle runServer -Pport=9099 -q --console=plain
+  if (project.hasProperty('port')) {
+    args(project.getProperty('port'));
+  }
+}
+// run with arguments e.g.: gradle runThreadedPoolServer -Pport=9099 -q --console=plain
+task runThreadedPoolServer(type: JavaExec) {
+  group 'ThreadPoolServer'
+  description 'Creates Server socket waits for messages'
+
+  classpath = sourceSets.main.runtimeClasspath
+
+  main = 'taskone.ThreadPoolServer'
+  standardInput = System.in
+  
+  
+  if (project.hasProperty('port') && project.hasProperty('poolSize')) {
+    args(project.getProperty('port'), project.getProperty('poolSize'));
+  }
+}
+
+task arguments {
+    if (project.hasProperty("host")) {
+      host = project.getProperty("host")
+    }
+    if (project.hasProperty("port")) {
+      port = project.getProperty("port")
+    }
+}
+ def host = "localhost"
+ def port = 9099
+ def poolSize = 3
+
+// gradle runClient
+task runClient(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  description = "Run Client"
+  main = 'taskone.Client'
+ standardInput = System.in
+  // default args
+  args host // host
+  args port // port
+ 
+}
+
+
+// gradle runTask1
+task runTask1(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  description = "Run Task1"
+  main = 'taskone.Server'
+  // default args
+  args port // port
+}
+
+// gradle runTask2
+task runTask2(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  description = "Run Task2"
+  main = 'taskone.ThreadedServer'
+  // default args
+  args port // port
+}
+
+// gradle runTask3
+task runTask3(type: JavaExec) {
+  classpath = sourceSets.main.runtimeClasspath
+  description = "Run Task3"
+  main = 'taskone.ThreadPoolServer'
+  // default args
+  args port // port
+  args poolSize    //bounded to 3
+  //args 'This is line one.\nThis is line two' // data
+}
+
