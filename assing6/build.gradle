@@ -229,9 +229,9 @@ task registerServiceNode(type: JavaExec) {
   description = "Run Server"
   main = 'examples.grpcclient.NodeService'
   // default args
-  args 'localhost'
-  args '9002'
-  args 'localhost'
+  args 'ser321test.duckdns.org'
+  args '8080'
+  args '54.167.126.26'
   args '8000'
   args 'Alhaj'
   args true
