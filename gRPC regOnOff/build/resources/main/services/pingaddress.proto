@@ -1,0 +1,51 @@
+//Service to get the ip address of any website that user may enter and save that ip under a name.
+//user can search for an ip by name.
+
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "service";
+option java_outer_classname = "AddressPingProto";
+
+import "google/protobuf/empty.proto";
+
+package services;
+
+service AddressPing{
+  rpc pingAddress (PingAdressReq) returns (PingAdressRes) {}
+  rpc getIpAddress (PingSerchReq) returns (PingSerchRes) {}
+ 
+}
+
+// The response message when reading the entries, either by read or search
+message PingAdressRes {
+  bool isSuccess = 1;
+ 
+  string error = 2; // Error message, a String of your choice to show what went wrong if an error occured -- isSuccess would then be false
+}
+
+message PingAdressReq{
+ string host = 1;
+ string name = 2;
+
+}
+
+message PingSerchReq {
+  string  name = 1; 
+}
+
+message PingSerchRes {
+ bool ok = 1;
+ string  ipAdress = 2;
+ string error = 3;
+}
+
+
+
+
+
+
+
+
+
+
